@@ -55,11 +55,36 @@ function viewDepartmentSales() {
         }
         output = table.table(data, config);
         console.log(output);
+        myConnection.goBack("Do you want to go back to Supervisor menu? ", bamazonSupervisor.runBamazonSupervisor);
     });
 }
 
 function addDepartment() {
-
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Please enter the new department name: ".green.italic.bold,
+            name: "deptName"
+        }
+    ]).then(function (inquirer1) {
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Please enter the over head cost: ".green.italic.bold,
+                name: "cost",
+                validate: function (res) {
+                    if (Math.ceil(parseFloat(res))) {
+                        return true;
+                    } else {
+                        return "Please enter a number.".red;
+                    }
+                }
+            }
+        ]).then(function (inquirer1) {
+            //insert to database
+            myConnection.goBack("Do you want to go back to Supervisor menu? ", bamazonSupervisor.runBamazonSupervisor);
+        });
+    });
 }
 
 module.exports = bamazonSupervisor;
