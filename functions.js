@@ -42,8 +42,8 @@ const myConnection = {
         );
         //console.log(query.sql);
     },
-    readFunction: function (data,callback) {
-        connection.query("SELECT * FROM " + data, (err, res) => {
+    readFunction: function (columns,data,callback) {
+        connection.query("SELECT "+columns+" FROM " + data, (err, res) => {
             if (err) throw err;
             callback(res);
            // console.log(res.affectedRows + " products updated!\n");
@@ -75,11 +75,7 @@ const myConnection = {
             if (inquirerResponse.goBack) callback();
             else process.exit();
         });
-    },
-    runBamazon: function (){
-    
     }
-
 }
-
+myConnection.startConnection();
 module.exports = myConnection;

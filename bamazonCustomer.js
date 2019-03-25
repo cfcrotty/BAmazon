@@ -21,7 +21,7 @@ const bamazonCustomer = {
             }
         };
         data[0] = ["Item ID".cyan, "Item Name".cyan, "Price ($)".cyan];
-        myConnection.readFunction("products", function (res) {
+        myConnection.readFunction("*","products", function (res) {
             console.log("\n PRODUCTS".magenta);
             for (let i = 0; i < res.length; i++) {
                 data[i + 1] = [res[i].item_id.toString().yellow, res[i].product_name, res[i].price.toFixed(2)];
@@ -31,7 +31,6 @@ const bamazonCustomer = {
             console.log(output);
             getProductID(tempData);
         });
-
     }
 }
 
@@ -78,9 +77,8 @@ function getProductCount(itemID) {
         }
     ]).then(function (inquirerResponse) {
         let query = "products WHERE item_id=" + itemID;
-        myConnection.readFunction(query, function (res) {
+        myConnection.readFunction("*",query, function (res) {
             if (res[0].stock_quantity >= parseInt(inquirerResponse.itemCount)) {
-                //update quantity - decrease
                 myConnection.updateDatabase("products",[
                     { stock_quantity: res[0].stock_quantity - parseInt(inquirerResponse.itemCount) },
                     { item_id: itemID }

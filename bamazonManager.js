@@ -4,13 +4,6 @@ const table = require('table');
 const myConnection = require('./functions.js');
 
 var tempData = [];
-/*
-myConnection.startConnection();
-myConnection.readFunction("products",function(res){
-    console.log(res);
-});
-myConnection.endConnection();
-*/
 
 const BamazonManager = {
     runBamazonManager: function () {
@@ -40,7 +33,7 @@ const BamazonManager = {
         });
     }
 }
-BamazonManager.runBamazonManager();
+
 function viewProducts(isLow, isGoBack, callback) {
     var strLow = "";
     var data = [],
@@ -59,7 +52,7 @@ function viewProducts(isLow, isGoBack, callback) {
     };
     data[0] = ["Item ID".cyan, "Item Name".cyan, "Department Name".cyan, "Price ($)".cyan, "Quantity".cyan];
     if (isLow) strLow = " AND stock_quantity<5";
-    myConnection.readFunction("products as p,departments as d WHERE p.department_id=d.department_id" + strLow, function (res) {
+    myConnection.readFunction("*","products as p,departments as d WHERE p.department_id=d.department_id" + strLow, function (res) {
         console.log("\n PRODUCTS".magenta);
         for (let i = 0; i < res.length; i++) {
             data[i + 1] = [res[i].item_id.toString().yellow, res[i].product_name, res[i].department_name, res[i].price.toFixed(2), res[i].stock_quantity];
@@ -88,7 +81,7 @@ function addToInventory() {
                 }
             }
         ]).then(function (inquirerResponse) {
-            myConnection.readFunction("products WHERE item_id=" + parseInt(inquirerResponse.itemID), function (productRes) {
+            myConnection.readFunction("*","products WHERE item_id=" + parseInt(inquirerResponse.itemID), function (productRes) {
                 inquirer.prompt([
                     {
                         type: "input",
@@ -143,44 +136,48 @@ function addNewProduct() {
                 }
             }
         ]).then(function (inquirer2) {
-                inquirer.prompt([
-                    {
-                        type: "input",
-                        message: "Please enter the product quantity".green.italic.bold + "(greater than 4): ".red.italic.bold,
-                        name: "quantity",
-                        validate: function (res) {
-                            if (Number.isInteger(parseInt(res)) && parseInt(res) >= 5) {
-                                return true;
-                            } else {
-                                return "Please enter a number greater than 4.".red;
-                            }
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "Please enter the product quantity".green.italic.bold + "(greater than 4): ".red.italic.bold,
+                    name: "quantity",
+                    validate: function (res) {
+                        if (Number.isInteger(parseInt(res)) && parseInt(res) >= 5) {
+                            return true;
+                        } else {
+                            return "Please enter a number greater than 4.".red;
                         }
                     }
-                ]).then(function (inquirer3) {
-                    var tempDept = [];
-                    var tempStr = [];
-                    myConnection.readFunction("departments", function (departments) {
-                        for (let i = 0; i < departments.length; i++) {
-                            tempStr.push(departments[i].department_id + " | " + departments[i].department_name);
-                            tempDept.push(departments[i].department_id);
+                }
+            ]).then(function (inquirer3) {
+                var tempDept = [];
+                var tempStr = [];
+                myConnection.readFunction("*","departments", function (departments) {
+                    for (let i = 0; i < departments.length; i++) {
+                        tempStr.push(departments[i].department_id + " | " + departments[i].department_name);
+                        tempDept.push(departments[i].department_id);
+                    }
+                    inquirer.prompt([
+                        {
+                            type: "list",
+                            message: "Please select a department: ".green.italic.bold,
+                            name: "deptID",
+                            choices: tempStr
                         }
-                        inquirer.prompt([
-                            {
-                                type: "list",
-                                message: "Please select a department: ".green.italic.bold,
-                                name: "deptID",
-                                choices: tempStr
-                            }
-                        ]).then(function (inquirer4) {
-                            var deptID = inquirer4.deptID.substr(0,inquirer4.deptID.indexOf(" | "));
-                            myConnection.insertDatabase("products",
-                                { product_name: inquirer1.name.trim(), department_id: parseInt(deptID), price: parseFloat(inquirer2.price), stock_quantity: parseInt(inquirer3.quantity), is_active: true, product_sales: 0 }, function(res){
-                                    console.log("Successfully added new product.");
-                                    console.log("Added: "+inquirer1.name.trim()+" | $"+inquirer2.price+" | "+inquirer3.quantity+"(quantity) | "+inquirer4.deptID.substr(inquirer4.deptID.indexOf(" | ")+3,inquirer4.deptID.length-1)+"(department)");
-                                });
-                        });
+                    ]).then(function (inquirer4) {
+                        var deptID = inquirer4.deptID.substr(0, inquirer4.deptID.indexOf(" | "));
+                        myConnection.insertDatabase("products",
+                            { product_name: inquirer1.name.trim(), department_id: parseInt(deptID), price: parseFloat(inquirer2.price), stock_quantity: parseInt(inquirer3.quantity), is_active: true, product_sales: 0 }, function (res) {
+                                console.log("Successfully added new product.");
+                                console.log("Added: " + inquirer1.name.trim() + " | $" + inquirer2.price + " | " + inquirer3.quantity + "(quantity) | " + inquirer4.deptID.substr(inquirer4.deptID.indexOf(" | ") + 3, inquirer4.deptID.length - 1) + "(department)");
+                            });
+                            myConnection.goBack("Do you want to go back to Manager menu? ", BamazonManager.runBamazonManager);
                     });
                 });
             });
+        });
     });
 }
+
+//BamazonManager.runBamazonManager();
+module.exports = BamazonManager;
