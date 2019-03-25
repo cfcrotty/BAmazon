@@ -1,4 +1,7 @@
 const mysql = require('mysql');
+const inquirer = require('inquirer');
+const colors = require('colors');
+
 const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -14,9 +17,9 @@ const myConnection = {
         });
     },
 
-    insertDatabase: function (data,callback) {
+    insertDatabase: function (table,data,callback) {
         var query = connection.query(
-            "INSERT INTO ? SET ?",
+            "INSERT INTO "+table+" SET ?",
             data,
             (err, res) => {
                 if (err) throw err;
@@ -27,9 +30,9 @@ const myConnection = {
         //console.log(query.sql);
     },
 
-    updateDatabase: function (data,callback) {
+    updateDatabase: function (table,data,callback) {
         var query = connection.query(
-            "UPDATE products SET ? WHERE ?",
+            "UPDATE "+table+" SET ? WHERE ?",
             data,
             (err, res) => {
                 if (err) throw err;
@@ -49,6 +52,34 @@ const myConnection = {
     },
     endConnection: function () {
         connection.end();
+    },
+    goToMainMenu: function() {
+        inquirer.prompt([
+            {
+                type: "confirm",
+                message: "Do you want to go back to main Manager menu? ".green.italic.bold,
+                name: "goToMain"
+            }
+        ]).then(function (inquirerResponse) {
+            //go back to main
+        });
+    },
+    goBack: function(question,callback) {
+        inquirer.prompt([
+            {
+                type: "confirm",
+                message: question.green.italic.bold,
+                name: "goBack"
+            }
+        ]).then(function (inquirerResponse) {
+            if (inquirerResponse.goBack) callback();
+            else process.exit();
+        });
+    },
+    runBamazon: function (){
+    
     }
+
 }
+
 module.exports = myConnection;

@@ -81,7 +81,7 @@ function getProductCount(itemID) {
         myConnection.readFunction(query, function (res) {
             if (res[0].stock_quantity >= parseInt(inquirerResponse.itemCount)) {
                 //update quantity - decrease
-                myConnection.updateDatabase([
+                myConnection.updateDatabase("products",[
                     { stock_quantity: res[0].stock_quantity - parseInt(inquirerResponse.itemCount) },
                     { item_id: itemID }
                 ], function (response) {
@@ -89,12 +89,12 @@ function getProductCount(itemID) {
                         let cost = (parseInt(inquirerResponse.itemCount) * res[0].price);
                         console.log("Shopping Successful!".yellow);
                         console.log("You got ".magenta + inquirerResponse.itemCount.magenta + " " + res[0].product_name.magenta+" for $".magenta+cost.toString().magenta+".".magenta);
-                        myConnection.updateDatabase([
+                        myConnection.updateDatabase("products",[
                             { product_sales: res[0].product_sales + (parseInt(inquirerResponse.itemCount) * res[0].price) },
                             { item_id: itemID }
                         ], function (updateResponse) { });
                     } else {
-                        console.log("Error! Please try again.".red);
+                        console.log("Error! Please try again later.".red);
                     }
                     selectAnotherProduct();
                 });

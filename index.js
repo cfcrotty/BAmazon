@@ -1,10 +1,8 @@
 const inquirer = require('inquirer');
 const colors = require('colors');
 
-const bamazonCustomer = require('./bamazonCustomer.js');
+//const bamazonCustomer = require('./bamazonCustomer.js');
 
-bamazonCustomer.runBamazonCustomer();
+//bamazonCustomer.runBamazonCustomer();
 
-function runBamazon(){
-
-}
+console.log(Math.ceil(parseInt(".6")));
