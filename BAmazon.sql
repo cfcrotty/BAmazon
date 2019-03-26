@@ -22,6 +22,15 @@ CREATE TABLE departments (
   PRIMARY KEY (department_id)
 );
 
+CREATE TABLE users (
+  user_id INT NOT NULL AUTO_INCREMENT,
+  full_name VARCHAR(255) NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  user_password VARCHAR(100) NOT NULL,
+  user_type VARCHAR(100) NOT NULL,
+  PRIMARY KEY (user_id)
+);
+
 INSERT INTO departments (department_name, over_head_costs)
 VALUES ("Frozen Food", 15000);
 
@@ -64,6 +73,15 @@ VALUES ("Salmon", 4, 5.50, 40, true, 0);
 INSERT INTO products (product_name, department_id, price, stock_quantity, is_active, product_sales)
 VALUES ("Whole Chicken", 4, 4.50, 40, true, 0);
 
+INSERT INTO users (full_name, username, user_password, user_type)
+VALUES ("Lexi Grey", "manager", "password","Manager");
+
+INSERT INTO users (full_name, username, user_password, user_type)
+VALUES ("Cara C", "supervisor", "password","Supervisor");
+
+
 SELECT * FROM products;
 
 SELECT * FROM departments;
+
+SELECT * FROM users;

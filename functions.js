@@ -75,6 +75,7 @@ const myConnection = {
                 choices: [type + " Menu", "Main Menu", "Exit"]
             }
         ]).then(function (inquirerResponse) {
+            console.log("\n");
             switch (inquirerResponse.goBack) {
                 case type + " Menu":
                     callback();
@@ -89,6 +90,14 @@ const myConnection = {
 
             }
         });
+    },
+    loginUser: function(data,callback){
+        connection.query("SELECT user_id, full_name, username, user_type FROM " + data, (err, res) => {
+            if (err) throw err;
+            callback(res);
+            // console.log(res.affectedRows + " products updated!\n");
+        });
+        //console.log(query.sql);
     }
 }
 myConnection.startConnection();

@@ -4,36 +4,64 @@ const table = require('table');
 const myConnection = require('./functions.js');
 
 var tempData = [];
+var user = [];
 
 const BamazonManager = {
-    runBamazonManager: function () {
+    runBamazonManager: function() {
         inquirer.prompt([
             {
-                type: "list",
-                message: "Please select from menu: ".magenta.italic.bold,
-                name: "menu",
-                choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product","Exit"]
+                type: "input",
+                message: "Please enter your username: ".green.italic.bold,
+                name: "username"
+            },
+            {
+                type: "password",
+                message: "Please enter your password: ".green.italic.bold,
+                name: "password"
             }
-        ]).then(function (inquirerResponse) {
-            switch (inquirerResponse.menu) {
-                case "View Products for Sale":
-                    viewProducts(false, true, function () { });
-                    break;
-                case "View Low Inventory":
-                    viewProducts(true, true, function () { });
-                    break;
-                case "Add to Inventory":
-                    addToInventory();
-                    break;
-                case "Add New Product":
-                    addNewProduct()
-                    break;
-                case "Exit":
-                    process.exit();
-                    break;
-            }
+        ]).then(function (inquirer) {
+            myConnection.loginUser("users WHERE username='"+inquirer.username+"' AND user_password='"+inquirer.password+"' AND user_type='Manager'",function(res){
+                if (res.length>0) {
+                    user = res;
+                    console.log("\nLogin successful. Hello, ".yellow+res[0].username.toString().yellow+".\n".yellow);
+                    runManagerMenu();
+                } else {
+                    console.log("\nUsername or password is incorrect.".red);
+                    console.log("Please try again.\n".red);
+                    BamazonManager.runBamazonManager();
+                }
+            });
         });
     }
+}
+
+function runManagerMenu() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Please select from menu: ".magenta.italic.bold,
+            name: "menu",
+            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product","Exit"]
+        }
+    ]).then(function (inquirerResponse) {
+        switch (inquirerResponse.menu) {
+            case "View Products for Sale":
+                viewProducts(false, true, function () { });
+                break;
+            case "View Low Inventory":
+                viewProducts(true, true, function () { });
+                break;
+            case "Add to Inventory":
+                addToInventory();
+                break;
+            case "Add New Product":
+                addNewProduct()
+                break;
+            case "Exit":
+                process.exit();
+                break;
+        }
+    });
 }
 
 function viewProducts(isLow, isGoBack, callback) {

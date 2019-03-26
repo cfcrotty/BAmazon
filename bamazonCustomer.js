@@ -85,19 +85,19 @@ function getProductCount(itemID) {
                 ], function (response) {
                     if (response.affectedRows) {
                         let cost = (parseInt(inquirerResponse.itemCount) * res[0].price);
-                        console.log("Shopping Successful!".yellow);
-                        console.log("You got ".magenta + inquirerResponse.itemCount.magenta + " " + res[0].product_name.magenta+" for $".magenta+cost.toString().magenta+".".magenta);
+                        console.log("\nShopping Successful!".yellow);
+                        console.log("You got ".magenta + inquirerResponse.itemCount.magenta + " " + res[0].product_name.magenta+" for $".magenta+cost.toString().magenta+".\n".magenta);
                         myConnection.updateDatabase("products",[
                             { product_sales: res[0].product_sales + (parseInt(inquirerResponse.itemCount) * res[0].price) },
                             { item_id: itemID }
                         ], function (updateResponse) { });
                     } else {
-                        console.log("Error! Please try again later.".red);
+                        console.log("Error! Please try again later.\n".red);
                     }
                     selectAnotherProduct();
                 });
             } else {
-                console.log("Insufficient Quantity!".red);
+                console.log("Insufficient Quantity!\n".red);
                 selectAnotherProduct();
             }
         });
@@ -115,10 +115,11 @@ function selectAnotherProduct() {
             name: "selectAnother",
         }
     ]).then(function (inquirerResponse) {
+        console.log();
         if (inquirerResponse.selectAnother) {
             bamazonCustomer.runBamazonCustomer();
         } else {
-            console.log("Thank you for shopping with us.".yellow);
+            console.log("Thank you for shopping with us.\n".yellow);
             myConnection.endConnection();
             process.exit();
         }

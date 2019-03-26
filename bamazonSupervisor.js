@@ -7,25 +7,52 @@ const bamazonSupervisor = {
     runBamazonSupervisor: function () {
         inquirer.prompt([
             {
-                type: "list",
-                message: "Please select from menu: ".magenta.italic.bold,
-                name: "menu",
-                choices: ["View Product Sales By Department", "Create New Department","Exit"]
+                type: "input",
+                message: "Please enter your username: ".green.italic.bold,
+                name: "username"
+            },
+            {
+                type: "password",
+                message: "Please enter your password: ".green.italic.bold,
+                name: "password"
             }
-        ]).then(function (inquirerResponse) {
-            switch (inquirerResponse.menu) {
-                case "View Product Sales By Department":
-                    viewDepartmentSales();
-                    break;
-                case "Create New Department":
-                    addDepartment();
-                    break;
-                case "Exit":
-                    process.exit();
-                    break;
-            }
+        ]).then(function (inquirer) {
+            myConnection.loginUser("users WHERE username='"+inquirer.username+"' AND user_password='"+inquirer.password+"' AND user_type='Supervisor'",function(res){
+                if (res.length>0) {
+                    user = res;
+                    console.log("\nLogin successful. Hello, ".yellow+res[0].username.toString().yellow+".\n".yellow);
+                    runSupervisorMenu();
+                } else {
+                    console.log("\nUsername or password is incorrect.".red);
+                    console.log("Please try again.\n".red);
+                    bamazonSupervisor.runBamazonSupervisor();
+                }
+            });
         });
     }
+}
+
+function runSupervisorMenu(){
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Please select from menu: ".magenta.italic.bold,
+            name: "menu",
+            choices: ["View Product Sales By Department", "Create New Department","Exit"]
+        }
+    ]).then(function (inquirerResponse) {
+        switch (inquirerResponse.menu) {
+            case "View Product Sales By Department":
+                viewDepartmentSales();
+                break;
+            case "Create New Department":
+                addDepartment();
+                break;
+            case "Exit":
+                process.exit();
+                break;
+        }
+    });
 }
 
 function viewDepartmentSales() {
