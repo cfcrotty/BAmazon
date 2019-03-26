@@ -10,6 +10,7 @@ const connection = mysql.createConnection({
     database: "bamazon"
 });
 const myConnection = {
+    user: [],
     startConnection: function () {
         connection.connect(err => {
             if (err) throw err;
@@ -20,7 +21,7 @@ const myConnection = {
     insertDatabase: function (table, data, duplicateData, callback,goBackParam1,goBackParam2) {
         this.checkDuplicateFunction(duplicateData, function (res) {
             if (res[0].count > 0) {
-                console.log("\nSorry! Duplicate data. Please use a different name.".red);
+                console.log("\nSorry! Duplicate data. Please use a different name.\n".red);
                 myConnection.goBack(goBackParam1,goBackParam2);
             } else {
                 var query = connection.query(
@@ -81,6 +82,7 @@ const myConnection = {
                     callback();
                     break;
                 case "Main Menu":
+                    if (type!==myConnection.user[0].user_type) myConnection.user = [];
                     const Bamazon = require('./index.js');
                     Bamazon.runBamazon();
                     break;

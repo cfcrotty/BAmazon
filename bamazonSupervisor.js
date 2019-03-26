@@ -5,40 +5,45 @@ const myConnection = require('./functions.js');
 
 const bamazonSupervisor = {
     runBamazonSupervisor: function () {
-        inquirer.prompt([
-            {
-                type: "input",
-                message: "Please enter your username: ".green.italic.bold,
-                name: "username"
-            },
-            {
-                type: "password",
-                message: "Please enter your password: ".green.italic.bold,
-                name: "password"
-            }
-        ]).then(function (inquirer) {
-            myConnection.loginUser("users WHERE username='"+inquirer.username+"' AND user_password='"+inquirer.password+"' AND user_type='Supervisor'",function(res){
-                if (res.length>0) {
-                    user = res;
-                    console.log("\nLogin successful. Hello, ".yellow+res[0].username.toString().yellow+".\n".yellow);
-                    runSupervisorMenu();
-                } else {
-                    console.log("\nUsername or password is incorrect.".red);
-                    console.log("Please try again.\n".red);
-                    bamazonSupervisor.runBamazonSupervisor();
+        if (myConnection.user && myConnection.user.length > 0 && myConnection.user[0].user_type === "Supervisor") {
+            runSupervisorMenu();
+        } else {
+            myConnection.user = [];
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "Please enter your username: ".green.italic.bold,
+                    name: "username"
+                },
+                {
+                    type: "password",
+                    message: "Please enter your password: ".green.italic.bold,
+                    name: "password"
                 }
+            ]).then(function (inquirer) {
+                myConnection.loginUser("users WHERE username='" + inquirer.username + "' AND user_password='" + inquirer.password + "' AND user_type='Supervisor'", function (res) {
+                    if (res.length > 0) {
+                        myConnection.user = res;
+                        console.log("\nLogin successful. Hello, ".yellow + res[0].username.toString().magenta.bold.italic + ".\n".yellow);
+                        runSupervisorMenu();
+                    } else {
+                        console.log("\nUsername or password is incorrect.".red);
+                        console.log("Please try again.\n".red);
+                        bamazonSupervisor.runBamazonSupervisor();
+                    }
+                });
             });
-        });
+        }
     }
 }
 
-function runSupervisorMenu(){
+function runSupervisorMenu() {
     inquirer.prompt([
         {
             type: "list",
             message: "Please select from menu: ".magenta.italic.bold,
             name: "menu",
-            choices: ["View Product Sales By Department", "Create New Department","Exit"]
+            choices: ["View Product Sales By Department", "Create New Department", "Create User", "Exit"]
         }
     ]).then(function (inquirerResponse) {
         switch (inquirerResponse.menu) {
@@ -47,6 +52,9 @@ function runSupervisorMenu(){
                 break;
             case "Create New Department":
                 addDepartment();
+                break;
+            case "Create User":
+                addUser();
                 break;
             case "Exit":
                 process.exit();
@@ -81,7 +89,7 @@ function viewDepartmentSales() {
         console.log("\n DEPARTMENTS".magenta);
         for (let i = 0; i < res.length; i++) {
             let profit = res[i].sales - res[i].over_head_costs;
-            data[i + 1] = [res[i].department_id.toString().yellow, res[i].department_name, res[i].over_head_costs.toFixed(2), res[i].sales.toFixed(2),profit.toFixed(2)];
+            data[i + 1] = [res[i].department_id.toString().yellow, res[i].department_name, res[i].over_head_costs.toFixed(2), res[i].sales.toFixed(2), profit.toFixed(2)];
         }
         output = table.table(data, config);
         console.log(output);
@@ -95,34 +103,70 @@ function addDepartment() {
             type: "input",
             message: "Please enter the new department name: ".green.italic.bold,
             name: "deptName"
-        }
-    ]).then(function (inquirer1) {
-        inquirer.prompt([
-            {
-                type: "input",
-                message: "Please enter the over head cost: ".green.italic.bold,
-                name: "cost",
-                validate: function (res) {
-                    if (Math.ceil(parseFloat(res))) {
-                        return true;
-                    } else {
-                        return "Please enter a number.".red;
-                    }
+        },
+        {
+            type: "input",
+            message: "Please enter the over head cost: ".green.italic.bold,
+            name: "cost",
+            validate: function (res) {
+                if (Math.ceil(parseFloat(res))) {
+                    return true;
+                } else {
+                    return "Please enter a number.".red;
                 }
             }
-        ]).then(function (inquirer2) {
-            //insert to database
-            myConnection.insertDatabase("departments",{
-                department_name: inquirer1.deptName.trim(),
-                over_head_costs: parseFloat(inquirer2.cost)
-            },"departments WHERE department_name='"+inquirer1.deptName.trim()+"'",function(res){
-                if (res.affectedRows) {
-                    console.log("\nSuccessfully added new department.".yellow);
-                    console.log("Added: ".yellow+inquirer1.deptName.yellow+"(Department Name) | $".yellow+inquirer2.cost+"(Over Head Cost)\n".yellow);
-                }
-                myConnection.goBack("Supervisor", bamazonSupervisor.runBamazonSupervisor);
-            },"Supervisor",bamazonSupervisor.runBamazonSupervisor);
-        });
+        }
+    ]).then(function (inquirer1) {
+        //insert to database
+        myConnection.insertDatabase("departments", {
+            department_name: inquirer1.deptName.trim(),
+            over_head_costs: parseFloat(inquirer1.cost)
+        }, "departments WHERE department_name='" + inquirer1.deptName.trim() + "'", function (res) {
+            if (res.affectedRows) {
+                console.log("\nSuccessfully added new department.".yellow);
+                console.log("Added: ".yellow + inquirer1.deptName.yellow + "(Department Name) | $".yellow + inquirer1.cost + "(Over Head Cost)\n".yellow);
+            }
+            myConnection.goBack("Supervisor", bamazonSupervisor.runBamazonSupervisor);
+        }, "Supervisor", bamazonSupervisor.runBamazonSupervisor);
+    });
+}
+
+function addUser() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Please enter the full name: ".green.italic.bold,
+            name: "fullName"
+        },
+        {
+            type: "input",
+            message: "Please enter the username: ".green.italic.bold,
+            name: "username"
+        },
+        {
+            type: "password",
+            message: "Please enter the user password: ".green.italic.bold,
+            name: "password"
+        },
+        {
+            type: "list",
+            message: "Please select user type: ".green.italic.bold,
+            name: "userType",
+            choices: ["Manager","Supervisor"]
+        }
+    ]).then(function (inquirer1) {
+        myConnection.insertDatabase("users", {
+            full_name: inquirer1.fullName.trim(),
+            username: inquirer1.username.trim(),
+            user_password: inquirer1.password.trim(),
+            user_type: inquirer1.userType.trim()
+        }, "users WHERE username='" + inquirer1.username.trim() + "'", function (res) {
+            if (res.affectedRows) {
+                console.log("\nSuccessfully added new user.".yellow);
+                console.log("Added: ".yellow + inquirer1.fullName.trim().yellow + " | ".yellow + inquirer1.username.trim()+" | "+inquirer1.userType.trim() + "\n".yellow);
+            }
+            myConnection.goBack("Supervisor", bamazonSupervisor.runBamazonSupervisor);
+        }, "Supervisor", bamazonSupervisor.runBamazonSupervisor);
     });
 }
 
