@@ -10,9 +10,9 @@ const BamazonManager = {
         inquirer.prompt([
             {
                 type: "list",
-                message: "Please select from menu: ".green.italic.bold,
+                message: "Please select from menu: ".magenta.italic.bold,
                 name: "menu",
-                choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
+                choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product","Exit"]
             }
         ]).then(function (inquirerResponse) {
             switch (inquirerResponse.menu) {
@@ -26,8 +26,10 @@ const BamazonManager = {
                     addToInventory();
                     break;
                 case "Add New Product":
-                    console.log("Add New Product");
                     addNewProduct()
+                    break;
+                case "Exit":
+                    process.exit();
                     break;
             }
         });
@@ -61,7 +63,7 @@ function viewProducts(isLow, isGoBack, callback) {
         output = table.table(data, config);
         console.log(output);
         callback(res);
-        if (isGoBack) myConnection.goBack("Do you want to go back to Manager menu? ", BamazonManager.runBamazonManager);
+        if (isGoBack) myConnection.goBack("Manager", BamazonManager.runBamazonManager);
     });
 }
 
@@ -106,7 +108,7 @@ function addToInventory() {
                         } else {
                             console.log("Error! Please try again later.".red);
                         }
-                        myConnection.goBack("Do you want to go back to Manager menu? ", BamazonManager.runBamazonManager);
+                        myConnection.goBack("Manager", BamazonManager.runBamazonManager);
                     });
                 });
             });
@@ -160,18 +162,18 @@ function addNewProduct() {
                     inquirer.prompt([
                         {
                             type: "list",
-                            message: "Please select a department: ".green.italic.bold,
+                            message: "Please select a department: ".magenta.italic.bold,
                             name: "deptID",
                             choices: tempStr
                         }
                     ]).then(function (inquirer4) {
                         var deptID = inquirer4.deptID.substr(0, inquirer4.deptID.indexOf(" | "));
                         myConnection.insertDatabase("products",
-                            { product_name: inquirer1.name.trim(), department_id: parseInt(deptID), price: parseFloat(inquirer2.price), stock_quantity: parseInt(inquirer3.quantity), is_active: true, product_sales: 0 }, function (res) {
-                                console.log("Successfully added new product.");
-                                console.log("Added: " + inquirer1.name.trim() + " | $" + inquirer2.price + " | " + inquirer3.quantity + "(quantity) | " + inquirer4.deptID.substr(inquirer4.deptID.indexOf(" | ") + 3, inquirer4.deptID.length - 1) + "(department)");
-                            });
-                            myConnection.goBack("Do you want to go back to Manager menu? ", BamazonManager.runBamazonManager);
+                            { product_name: inquirer1.name.trim(), department_id: parseInt(deptID), price: parseFloat(inquirer2.price), stock_quantity: parseInt(inquirer3.quantity), is_active: true, product_sales: 0 },"products WHERE product_name='"+inquirer1.name.trim()+"' AND department_id="+parseInt(deptID), function (res) {
+                                console.log("\nSuccessfully added new product.".yellow);
+                                console.log("Added: ".yellow + inquirer1.name.trim().yellow + " | $".yellow + inquirer2.price + " | ".yellow + inquirer3.quantity + "(quantity) | " + inquirer4.deptID.substr(inquirer4.deptID.indexOf(" | ") + 3, inquirer4.deptID.length - 1) + "(department)\n".yellow);
+                                myConnection.goBack("Manager", BamazonManager.runBamazonManager);
+                            },"Manager",BamazonManager.runBamazonManager);
                     });
                 });
             });

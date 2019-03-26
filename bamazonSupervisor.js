@@ -8,9 +8,9 @@ const bamazonSupervisor = {
         inquirer.prompt([
             {
                 type: "list",
-                message: "Please select from menu: ".green.italic.bold,
+                message: "Please select from menu: ".magenta.italic.bold,
                 name: "menu",
-                choices: ["View Product Sales By Department", "Create New Department"]
+                choices: ["View Product Sales By Department", "Create New Department","Exit"]
             }
         ]).then(function (inquirerResponse) {
             switch (inquirerResponse.menu) {
@@ -19,6 +19,9 @@ const bamazonSupervisor = {
                     break;
                 case "Create New Department":
                     addDepartment();
+                    break;
+                case "Exit":
+                    process.exit();
                     break;
             }
         });
@@ -55,7 +58,7 @@ function viewDepartmentSales() {
         }
         output = table.table(data, config);
         console.log(output);
-        myConnection.goBack("Do you want to go back to Supervisor menu? ", bamazonSupervisor.runBamazonSupervisor);
+        myConnection.goBack("Supervisor", bamazonSupervisor.runBamazonSupervisor);
     });
 }
 
@@ -80,9 +83,18 @@ function addDepartment() {
                     }
                 }
             }
-        ]).then(function (inquirer1) {
+        ]).then(function (inquirer2) {
             //insert to database
-            myConnection.goBack("Do you want to go back to Supervisor menu? ", bamazonSupervisor.runBamazonSupervisor);
+            myConnection.insertDatabase("departments",{
+                department_name: inquirer1.deptName.trim(),
+                over_head_costs: parseFloat(inquirer2.cost)
+            },"departments WHERE department_name='"+inquirer1.deptName.trim()+"'",function(res){
+                if (res.affectedRows) {
+                    console.log("\nSuccessfully added new department.".yellow);
+                    console.log("Added: ".yellow+inquirer1.deptName.yellow+"(Department Name) | $".yellow+inquirer2.cost+"(Over Head Cost)\n".yellow);
+                }
+                myConnection.goBack("Supervisor", bamazonSupervisor.runBamazonSupervisor);
+            },"Supervisor",bamazonSupervisor.runBamazonSupervisor);
         });
     });
 }
