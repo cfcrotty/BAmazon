@@ -3,6 +3,9 @@ const colors = require('colors');
 const table = require('table');
 const myConnection = require('./functions.js');
 
+/**
+ * The object to export
+ */
 const bamazonSupervisor = {
     runBamazonSupervisor: function () {
         if (myConnection.user && myConnection.user.length > 0 && myConnection.user[0].user_type === "Supervisor") {
@@ -37,6 +40,9 @@ const bamazonSupervisor = {
     }
 }
 
+/**
+ * function to run to show supervisor menu
+ */
 function runSupervisorMenu() {
     inquirer.prompt([
         {
@@ -63,6 +69,9 @@ function runSupervisorMenu() {
     });
 }
 
+/**
+ * function that shows sales per department
+ */
 function viewDepartmentSales() {
     var data = [],
         output,
@@ -97,6 +106,9 @@ function viewDepartmentSales() {
     });
 }
 
+/**
+ * function to add new department
+ */
 function addDepartment() {
     inquirer.prompt([
         {
@@ -117,7 +129,6 @@ function addDepartment() {
             }
         }
     ]).then(function (inquirer1) {
-        //insert to database
         myConnection.insertDatabase("departments", {
             department_name: inquirer1.deptName.trim(),
             over_head_costs: parseFloat(inquirer1.cost)
@@ -131,6 +142,9 @@ function addDepartment() {
     });
 }
 
+/**
+ * function to add new user
+ */
 function addUser() {
     inquirer.prompt([
         {

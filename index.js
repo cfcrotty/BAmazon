@@ -4,6 +4,9 @@ const bamazonCustomer = require('./bamazonCustomer.js');
 const BamazonManager = require('./BamazonManager.js');
 const bamazonSupervisor = require('./bamazonSupervisor.js');
 
+/**
+ * Bamazon object to export
+ */
 const Bamazon = {
     runBamazon: function () {
         inquirer.prompt([

@@ -5,6 +5,9 @@ const myConnection = require('./functions.js');
 
 var tempData = [];
 
+/**
+ * The object to export
+ */
 const BamazonManager = {
     runBamazonManager: function () {
         if (myConnection.user && myConnection.user.length > 0 && myConnection.user[0].user_type==="Manager") {
@@ -39,6 +42,9 @@ const BamazonManager = {
     }
 }
 
+/**
+ * function to show manager menu
+ */
 function runManagerMenu() {
     inquirer.prompt([
         {
@@ -68,6 +74,12 @@ function runManagerMenu() {
     });
 }
 
+/**
+ * Function to show all products
+ * @param {boolean} isLow true to show low inventory, false to show all products
+ * @param {boolean} isGoBack true to show manager menu, false to not show manager menu
+ * @param {function} callback callback function to run if there is result
+ */
 function viewProducts(isLow, isGoBack, callback) {
     var strLow = "";
     var data = [],
@@ -99,6 +111,9 @@ function viewProducts(isLow, isGoBack, callback) {
     });
 }
 
+/**
+ * function to add to inventory or stock quantity
+ */
 function addToInventory() {
     viewProducts(false, false, function (queryRes) {
         inquirer.prompt([
@@ -148,6 +163,9 @@ function addToInventory() {
     });
 }
 
+/**
+ * function to add new product
+ */
 function addNewProduct() {
     inquirer.prompt([
         {
@@ -213,5 +231,4 @@ function addNewProduct() {
     });
 }
 
-//BamazonManager.runBamazonManager();
 module.exports = BamazonManager;
