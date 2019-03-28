@@ -121,8 +121,10 @@ const myConnection = {
                     callback();
                     break;
                 case "Main Menu":
-                    console.log("\nSuccessfully logged you out.\n".yellow);
-                    if (type!==myConnection.user[0].user_type) myConnection.user = [];
+                    if (type!==myConnection.user[0].user_type) {
+                        console.log("\nSuccessfully logged you out.\n".yellow);
+                        myConnection.user = [];
+                    }
                     const Bamazon = require('./index.js');
                     Bamazon.runBamazon();
                     break;
