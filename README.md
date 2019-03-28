@@ -1,11 +1,11 @@
 # BAmazon
 BAmazon Homework
 
-BAmazon is Amazon-like storefront with the MySQL, and Node.js. The app will take in orders from customers and deplete stock from the store's inventory. It also has manager, and supervisor menu. The manager menu lets user view all products, show low inventory products, update inventory, and add new products. While the supervisor menu lets user track product sales across the store's departments, create new department, and create new users.
+BAmazon is Amazon-like storefront with the MySQL, and Node.js. The app will take in orders from customers and deplete stock from the store's inventory. It also has manager, and supervisor menu. The manager menu lets user view all products, show low inventory products, update inventory, and add new products. While the supervisor menu lets user track product sales across the store's departments, create new department, view all users, and create new users.
 
 ### Default Credentials:
-    - Manager Credentials: manager(username) | password(password)
-    - Supervisor Credentials: supervisor(username) | password(password)
+    - Manager Login: manager(username) | password(password)
+    - Supervisor Login: supervisor(username) | password(password)
 
 Link to Video and Screenshots: <https://cfcrotty.github.io/BAmazon/index.html>
 
