@@ -49,7 +49,7 @@ function runSupervisorMenu() {
             type: "list",
             message: "Please select from menu: ".magenta.italic.bold,
             name: "menu",
-            choices: ["View Product Sales By Department", "Create New Department", "Create User", "Exit"]
+            choices: ["View Product Sales By Department", "Create New Department", "View All Users", "Create User", "Exit"]
         }
     ]).then(function (inquirerResponse) {
         switch (inquirerResponse.menu) {
@@ -58,6 +58,9 @@ function runSupervisorMenu() {
                 break;
             case "Create New Department":
                 addDepartment();
+                break;
+            case "View All Users":
+                viewAllUsers();
                 break;
             case "Create User":
                 addUser();
@@ -91,7 +94,7 @@ function viewDepartmentSales() {
         }
     };
     data[0] = ["Department ID".cyan, "Department Name".cyan, "Over Head Cost ($)".cyan, "Products Sales ($)".cyan, "Total Profit ($)".cyan];
-    let queryStr = "departments AS d, products AS p WHERE d.department_id=p.department_id GROUP BY department_id";
+    let queryStr = "departments AS d INNER JOIN products AS p ON d.department_id=p.department_id GROUP BY department_id";
     let columns = "d.department_id, department_name, over_head_costs, SUM(product_sales) AS sales";
 
     myConnection.readFunction(columns, queryStr, function (res) {
@@ -181,6 +184,33 @@ function addUser() {
             }
             myConnection.goBack("Supervisor", bamazonSupervisor.runBamazonSupervisor);
         }, "Supervisor", bamazonSupervisor.runBamazonSupervisor);
+    });
+}
+
+/**
+ * function that shows all users
+ */
+function viewAllUsers() {
+    var data = [],
+        output,
+        config;
+
+    config = {
+        columns: {
+        }
+    };
+    data[0] = ["User ID".cyan, "Full Name".cyan, "Username".cyan, "User Type".cyan];
+    let queryStr = "users";
+    let columns = "user_id, full_name, username, user_type";
+
+    myConnection.readFunction(columns, queryStr, function (res) {
+        console.log("\n Users".magenta);
+        for (let i = 0; i < res.length; i++) {
+            data[i + 1] = [res[i].user_id.toString().yellow, res[i].full_name, res[i].username, res[i].user_type];
+        }
+        output = table.table(data, config);
+        console.log(output);
+        myConnection.goBack("Supervisor", bamazonSupervisor.runBamazonSupervisor);
     });
 }
 

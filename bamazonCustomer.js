@@ -8,6 +8,7 @@ const bamazonCustomer = {
      * Function to run the Bamazon Customer and displays all products available
      */
     runBamazonCustomer: function () {
+        myConnection.user = [{user_type: "Customer"}];
         var tempData = [];
         var data = [],
             output,
@@ -109,8 +110,9 @@ function selectAnotherProduct() {
             bamazonCustomer.runBamazonCustomer();
         } else {
             console.log("Thank you for shopping with us.\n".yellow);
-            myConnection.endConnection();
-            process.exit();
+            myConnection.goBack("Customer", bamazonCustomer.runBamazonCustomer);
+            //myConnection.endConnection();
+            //process.exit();
         }
     });
 }

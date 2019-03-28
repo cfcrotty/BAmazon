@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BAmazon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Playfair+Display" rel="stylesheet">
+    <!-- Added a link to Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="jumbotron jumbo2">
+        <h1 class="text-center big">BAmazon</h1>
+    </div>
+    <div class="container">
+        <div class="card mt-1">
+            <div class="div2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="desc"><b>BAmazon</b> is Amazon-like storefront with the MySQL, and Node.js. The app will take
+                            in orders from customers and deplete stock from the store's inventory. It also has manager,
+                            and supervisor menu. The manager menu lets user view all products, show low inventory
+                            products, update inventory, and add new products. While the supervisor menu lets user track
+                            product sales across the store's departments, create new department, view all users and create new users.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 style="color:black">BAmazon Video</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <video controls="controls" width="90%" height="100%" name="Video Name" src="https://carafelise.com/cc/videos/BAmazon.mp4"></video>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 style="color:black">BAmazon Screenshots</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>User can run the application using `node index.js`</h3>
+                        </div>
+                        <img class="myGallery" tabindex="1" src="assets/images/step1.png" alt="Step 1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>Select from the Main Menu</h3>
+                        </div>
+                        <img class="myGallery" tabindex="2" src="assets/images/step2.png" alt="Step 2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>Customer</h3>
+                            <p class="desc">Diplays all products in a table and allows customers to buy a product by
+                                product ID. The table shows product ID, product name, and price. To buy a product, first
+                                enter the product ID, then the number of items to buy. It will show if the process is
+                                successful then, ask if customer want to shop for more. If user selects no - a menu option will show to go back to Customer Menu, Main Menu or Exit the application.</p>
+                        </div>
+                        <img class="myGallery" tabindex="4" src="assets/images/customer.png" alt="Customer">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>Manager</h3>
+                            <p class="desc">
+                                Allows user to display all products, view low inventory products, update inventory, and
+                                add more products in the database. First, user has to login using default user(username:
+                                manager, password: password). After each manager menu process, a menu option will show to go back to Manager Menu, Main Menu or Exit the application.
+                            </p>
+                        </div>
+                        <img class="myGallery" tabindex="5" src="assets/images/manager1.png" alt="Manager ">
+                        <img class="myGallery" tabindex="5" src="assets/images/manager2.png" alt="Manager ">
+                        <p class="desc">View Products for Sale - shows all products in a table which has the product ID,
+                            name, department name, price, and stock quantity.</p>
+                        <img class="myGallery" tabindex="5" src="assets/images/manager3.png" alt="Manager ">
+                        <p class="desc">
+                            View Low Inventory - shows a table of products that has stock quantity less than 5.
+                        </p>
+                        <img class="myGallery" tabindex="5" src="assets/images/manager4.png" alt="Manager ">
+                        <p class="desc">
+                            Add to Inventory - allows user to add more to the items quantity currently in store. User
+                            has to enter the product ID then, the additional quantity to add to the current count.
+                        </p>
+                        <img class="myGallery" tabindex="5" src="assets/images/manager6.png" alt="Manager ">
+                        <p class="desc">
+                            Add New Product - lets user add new products in the databse/store. User has to enter the
+                            product ID, the price, the stock quantity, and department to which the item belongs. It will
+                            show if the process is successful then, show a menu(Manager Menu, Main Menu, or Exit).
+                        </p>
+                        <img class="myGallery" tabindex="5" src="assets/images/manager7.png" alt="Manager ">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>Supervisor</h3>
+                            <p class="desc">
+                                Allows user to display sales report by department, add new department and create new
+                                user. First user has to login using default user(username: supervisor, password:
+                                password). After each supervisor menu process, a menu option will show to go back to Manager Menu, Main Menu or Exit the application.
+                            </p>
+                        </div>
+                        <img class="myGallery" tabindex="6" src="assets/images/supervisor1.png" alt="Supervisor ">
+                        <p class="desc">
+                            View Product Sales by Department - display sales report of each department in a table with
+                            department ID, department name, over head cost, and total profit of each departments.
+                        </p>
+                        <img class="myGallery" tabindex="6" src="assets/images/supervisor2.png" alt="Supervisor ">
+                        <p class="desc">
+                            Create New Department - lets user create new department by entering the department name, and
+                            over head cost.
+                        </p>
+                        <img class="myGallery" tabindex="6" src="assets/images/supervisor3.png" alt="Supervisor ">
+                        <p class="desc">
+                                View All Users - menu to view all users using a table with user full name, username, and user type(manager or supervisor).
+                            </p>
+                        <img class="myGallery" tabindex="6" src="assets/images/supervisor5.png" alt="Supervisor ">
+                        <p class="desc">
+                            Create New User - enables user to create new user by entering the user full name, username,
+                            password, and user type(manager or supervisor).
+                        </p>
+                        <img class="myGallery" tabindex="6" src="assets/images/supervisor4.png" alt="Supervisor ">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>

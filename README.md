@@ -18,10 +18,10 @@ Supervisor Credentials: supervisor(username) | password(password)
 
 2. User can run the JavaScript using `node index.js`.
 
-3. Then, user has to select one from these menu:
+3. Then, user has to select one from these main menu:
 
     - Customer
-        * Diplays all products in a table and allows customers to buy a product by product ID. The table shows product ID, product name, and price. To buy a product, first enter the product ID, then the number of items to buy. It will show if the process is successful then, ask if customer want to shop for more.
+        * Diplays all products in a table and allows customers to buy a product by product ID. The table shows product ID, product name, and price. To buy a product, first enter the product ID, then the number of items to buy. It will show if the process is successful then, ask if customer want to shop for more. If user selects no - a menu option will show to go back to Customer Menu, Main Menu or Exit the application.
 
         ![Customer Sample](https://cfcrotty.github.io/BAmazon/assets/images/customer.png)
 
@@ -31,14 +31,17 @@ Supervisor Credentials: supervisor(username) | password(password)
             - View Low Inventory - shows a table of products that has stock quantity less than 5.
             - Add to Inventory - allows user to add more to the items quantity currently in store. User has to enter the product ID then, the additional quantity to add to the current count.
             - Add New Product - lets user add new products in the databse/store. User has to enter the product ID, the price, the stock quantity, and department to which the item belongs. It will show if the process is successful then, show a menu(Manager Menu, Main Menu, or Exit).
+        * After each manager menu process, a menu option will show to go back to Manager Menu, Main Menu or Exit the application.
 
         ![Manager Sample](https://cfcrotty.github.io/BAmazon/assets/images/manager3.png)
             
     - Supervisor
-        * Allows user to display sales report by department, add new department and create new user. First user has to login using default user(username: supervisor, password: password). Then, select from supervisor menu:
+        * Allows user to display sales report by department, add new department, view all users and create new user. First user has to login using default user(username: supervisor, password: password). Then, select from supervisor menu:
             - View Product Sales by Department - display sales report of each department in a table with department ID, department name, over head cost, and total profit of each departments.
             - Create New Department - lets user create new department by entering the department name, and over head cost.
+            - View All Users - menu to view all users using a table with user full name, username, and user type(manager or supervisor).
             - Create New User - enables user to create new user by entering the user full name, username, password, and user type(manager or supervisor).
+        * After each supervisor menu process, a menu option will show to go back to Manager Menu, Main Menu or Exit the application.
 
         ![Supervisor Sample](https://cfcrotty.github.io/BAmazon/assets/images/supervisor2.png)
             

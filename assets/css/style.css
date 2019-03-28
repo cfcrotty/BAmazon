@@ -35,6 +35,26 @@ p {
     text-align:center; 
     background-color: lightgray;
 }
+.desc {
+    margin: 1% 5%;
+}
+.myGallery {
+    width: 60%;
+    margin: 1%;
+    transition: all 2s, transform .5s, box-shadow .5s;
+    margin-bottom: 20px;
+}
+
+.myGallery:hover {
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, .6);
+    transform: scale(1.02);
+}
+
+.myGallery:focus {
+    width: 80%;
+    box-shadow: 12px 12px 25px rgba(0, 0, 0, .7);
+    transform: none;
+}
 /* Change Bootstrap CSS*/
 .container {
     position: relative;
@@ -80,5 +100,19 @@ p {
     background-image: url('../images/bg2.jpg');
     background-position-y: -250px;
 }
+@media only screen and (max-width: 950px) {
+    .myGallery {
+        width: 60%;
+    }
+}
 
+@media only screen and (max-width: 600px) {
+    .myGallery {
+        width: 65%;
+    }
 
+    .myGallery:focus {
+        width: 100%;
+        margin: 20px 0;
+    }
+}
