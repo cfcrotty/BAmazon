@@ -3,15 +3,14 @@ BAmazon Homework
 
 BAmazon is Amazon-like storefront with the MySQL, and Node.js. The app will take in orders from customers and deplete stock from the store's inventory. It also has manager, and supervisor menu. The manager menu lets user view all products, show low inventory products, update inventory, and add new products. While the supervisor menu lets user track product sales across the store's departments, create new department, and create new users.
 
-Link to Video and Screenshots: <https://cfcrotty.github.io/BAmazon/screenshot.html>
+Link to Video and Screenshots: <https://cfcrotty.github.io/BAmazon/index.html>
 
 ### Sample Terminal Images:
 ![Sample Terminal Image 1](https://cfcrotty.github.io/BAmazon/assets/images/main.png)
 ![Sample Terminal Image 2](https://cfcrotty.github.io/BAmazon/assets/images/customer.png)
 
-### Default Credentials:
-Manager Credentials: manager(username) | password(password)
-Supervisor Credentials: supervisor(username) | password(password)
+### Manager Default Credentials: manager(username) | password(password)
+### Manager Default Credentials: supervisor(username) | password(password)
 
 ### How to Use:
 1. I am using Node.js packages(mysql, colors, and inquirer) so the user needs to install dependencies using `npm i` in the terminal. Create database and tables with mock data using the BAmazon.sql
