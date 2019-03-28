@@ -74,7 +74,7 @@ INSERT INTO products (product_name, department_id, price, stock_quantity, is_act
 VALUES ("Whole Chicken", 4, 4.50, 40, true, 0);
 
 INSERT INTO users (full_name, username, user_password, user_type)
-VALUES ("Lexi Grey", "manager", "password","Manager");
+VALUES ("M Grey", "manager", "password","Manager");
 
 INSERT INTO users (full_name, username, user_password, user_type)
 VALUES ("Cara C", "supervisor", "password","Supervisor");

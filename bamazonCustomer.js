@@ -20,7 +20,7 @@ const bamazonCustomer = {
                 }
             }
         };
-        data[0] = ["Item ID".cyan, "Item Name".cyan, "Price ($)".cyan];
+        data[0] = ["Product ID".cyan, "Product Name".cyan, "Price ($)".cyan];
         myConnection.readFunction("*","products", function (res) {
             console.log("\n PRODUCTS".magenta);
             for (let i = 0; i < res.length; i++) {
@@ -29,7 +29,7 @@ const bamazonCustomer = {
             }
             output = table.table(data, config);
             console.log(output);
-            getProductID(tempData);
+            getProductToBuy(tempData);
         });
     }
 }
@@ -38,34 +38,23 @@ const bamazonCustomer = {
  * Function to ask customer to enter the product item ID to buy
  * @param {array} data array of valid product item ID to buy
  */
-function getProductID(data) {
+function getProductToBuy(data) {
     inquirer.prompt([
         {
             type: "input",
-            message: "Please enter the product item ID you want to purchase: ".green.italic.bold,
+            message: "Please enter the product ID you want to purchase: ".green.italic.bold,
             name: "itemID",
             validate: function (res) {
                 if (data.includes(parseInt(res))) {
                     return true;
                 } else {
-                    return "Please enter the item ID.".red;
+                    return "Please enter the product ID.".red;
                 }
             }
-        }
-    ]).then(function (inquirerResponse) {
-        getProductCount(inquirerResponse.itemID);
-    });
-}
-
-/**
- * Function that prompts user for number of products to buy and process it
- * @param {number} itemID product item ID
- */
-function getProductCount(itemID) {
-    inquirer.prompt([
+        },
         {
             type: "input",
-            message: "How many do you want? ".green.italic.bold,
+            message: "How many do you want? ".blue.italic.bold,
             name: "itemCount",
             validate: function (res) {
                 if (Number.isInteger(parseInt(res)) && parseInt(res) > 0) {
@@ -76,12 +65,12 @@ function getProductCount(itemID) {
             }
         }
     ]).then(function (inquirerResponse) {
-        let query = "products WHERE item_id=" + itemID;
+        let query = "products WHERE item_id=" + inquirerResponse.itemID;
         myConnection.readFunction("*",query, function (res) {
             if (res[0].stock_quantity >= parseInt(inquirerResponse.itemCount)) {
                 myConnection.updateDatabase("products",[
                     { stock_quantity: res[0].stock_quantity - parseInt(inquirerResponse.itemCount) },
-                    { item_id: itemID }
+                    { item_id: inquirerResponse.itemID }
                 ], function (response) {
                     if (response.affectedRows) {
                         let cost = (parseInt(inquirerResponse.itemCount) * res[0].price);
@@ -89,7 +78,7 @@ function getProductCount(itemID) {
                         console.log("You got ".magenta + inquirerResponse.itemCount.magenta + " " + res[0].product_name.magenta+" for $".magenta+cost.toString().magenta+".\n".magenta);
                         myConnection.updateDatabase("products",[
                             { product_sales: res[0].product_sales + (parseInt(inquirerResponse.itemCount) * res[0].price) },
-                            { item_id: itemID }
+                            { item_id: inquirerResponse.itemID }
                         ], function (updateResponse) { });
                     } else {
                         console.log("Error! Please try again later.\n".red);

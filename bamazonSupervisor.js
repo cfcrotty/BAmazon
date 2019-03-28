@@ -20,7 +20,7 @@ const bamazonSupervisor = {
                 },
                 {
                     type: "password",
-                    message: "Please enter your password: ".green.italic.bold,
+                    message: "Please enter your password: ".gray.italic.bold,
                     name: "password"
                 }
             ]).then(function (inquirer) {
@@ -118,7 +118,7 @@ function addDepartment() {
         },
         {
             type: "input",
-            message: "Please enter the over head cost: ".green.italic.bold,
+            message: "Please enter the over head cost: ".blue.italic.bold,
             name: "cost",
             validate: function (res) {
                 if (Math.ceil(parseFloat(res))) {
@@ -154,7 +154,7 @@ function addUser() {
         },
         {
             type: "input",
-            message: "Please enter the username: ".green.italic.bold,
+            message: "Please enter the username: ".blue.italic.bold,
             name: "username"
         },
         {
@@ -164,7 +164,7 @@ function addUser() {
         },
         {
             type: "list",
-            message: "Please select user type: ".green.italic.bold,
+            message: "Please select user type: ".blue.italic.bold,
             name: "userType",
             choices: ["Manager","Supervisor"]
         }

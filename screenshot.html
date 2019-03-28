@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BAmazon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Playfair+Display" rel="stylesheet">
+    <!-- Added a link to Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <style>
+        .myGallery {
+            width: 60%;
+            margin: 1%;
+            transition: all 2s, transform .5s, box-shadow .5s;
+            margin-bottom: 20px;
+        }
+
+        .myGallery:hover {
+            box-shadow: 6px 6px 20px rgba(0, 0, 0, .6);
+            transform: scale(1.02);
+        }
+
+        .myGallery:focus {
+            width: 80%;
+            box-shadow: 12px 12px 25px rgba(0, 0, 0, .7);
+            transform: none;
+        }
+
+        @media only screen and (max-width: 950px) {
+            .myGallery {
+                width: 60%;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .myGallery {
+                width: 65%;
+            }
+
+            .myGallery:focus {
+                width: 100%;
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="jumbotron jumbo2">
+        <h1 class="text-center big">BAmazon</h1>
+    </div>
+    <div class="container">
+        <div class="card mt-1">
+            <div class="div2">
+                <h1 style="color:black">BAmazon Video</h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <video controls="controls" width="90%" height="100%" name="Video Name" -->
+                            <!-- src="https://carafelise.com/cc/videos/liri.mp4"></video> -->
+                    </div>
+                </div>
+                <h1 style="color:black">BAmazon Screenshots</h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>User can run the JavaScript using `node liri.js`</h3>
+                        </div>
+                        <img class="myGallery" tabindex="1" src="assets/images/step1.png" alt="Step 1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>Select one command(concert-this, spotify-this-song, movie-this, do-what-it-says) using
+                                the arrow keys.</h3>
+                        </div>
+                        <img class="myGallery" tabindex="2" src="assets/images/step2.png" alt="Step 2">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>After selecting a command, enter the artist/band name, song, or movie or press enter to
+                                continue.</h3>
+                        </div>
+                        <img class="myGallery" tabindex="3" src="assets/images/step3.png" alt="Step3">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>It will show the results on the terminal.</h3>
+                        </div>
+                        <img class="myGallery" tabindex="4" src="assets/images/step4.png" alt="Step 4">
+                        <img class="myGallery" tabindex="4" src="assets/images/step4a.png" alt="Step 4">
+                        <img class="myGallery" tabindex="4" src="assets/images/step4b.png" alt="Step 4">
+                        <img class="myGallery" tabindex="4" src="assets/images/step4c.png" alt="Step 4">
+                        <img class="myGallery" tabindex="4" src="assets/images/random.png" alt="Step 4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>It will also open an HTML file on your default browser.</h3>
+                        </div>
+                        <img class="myGallery" tabindex="5" src="assets/images/step5.png" alt="Step 5">
+                        <img class="myGallery" tabindex="5" src="assets/images/step5a.png" alt="Step 5">
+                        <img class="myGallery" tabindex="5" src="assets/images/step5b.png" alt="Step 5">
+                        <img class="myGallery" tabindex="5" src="assets/images/step5c.png" alt="Step 5">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h3>If there is no result, it will display "Sorry! No result found.".</h3>
+                        </div>
+                        <img class="myGallery" tabindex="6" src="assets/images/error.png" alt="No Result">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>
